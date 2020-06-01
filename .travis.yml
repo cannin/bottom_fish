@@ -7,7 +7,7 @@ install:
   - R -e "install.packages('quantmod')"
   
 script:
-  - R -e "gspc_rsi.R"
+  - R -e "source('gspc_rsi.R')"
 
 deploy:
   provider: pages
