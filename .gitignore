@@ -39,5 +39,5 @@ vignettes/*.pdf
 .Renviron
 
 # Custom 
-*.json
-*.txt
+#*.json
+#*.txt
