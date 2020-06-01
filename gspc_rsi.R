@@ -14,3 +14,4 @@ write.table(df, "gspc.txt", sep="\t", quote=FALSE, row.names = FALSE)
 json <- toJSON(df, digits=2)
 write(json, "gspc.json")
 
+cat(dir())
