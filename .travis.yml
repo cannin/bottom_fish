@@ -1,0 +1,18 @@
+language: r
+
+r:
+  - release
+
+install: 
+  - R -e "install.packages('quantmod')"
+  
+script:
+  - R -e "source('gspc_rsi.R')"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
