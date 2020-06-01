@@ -1,0 +1,15 @@
+language: r
+
+r_packages:
+  - quantmod
+  
+before_deploy:
+- R -e 'gspc_rsi.R'
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
