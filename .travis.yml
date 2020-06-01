@@ -4,10 +4,10 @@ r:
   - release
 
 install: 
-  - R -e "install.packages('quantmod')
+  - R -e "install.packages('quantmod')"
   
 script:
-  - R -e 'gspc_rsi.R'
+  - R -e "gspc_rsi.R"
 
 deploy:
   provider: pages
