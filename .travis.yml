@@ -3,7 +3,7 @@ language: r
 r_packages:
   - quantmod
   
-before_deploy:
+script:
 - R -e 'gspc_rsi.R'
 
 deploy:
