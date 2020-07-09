@@ -8,12 +8,14 @@ install:
   
 script:
   - R -e "source('gspc_rsi.R')"
+  - R -e "source('gspc_rsi.R')"
 
 deploy:
   provider: pages
   file: 
     - gspc.json
     - gspc.txt
+    - gspc_pred.json
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   keep_history: true
