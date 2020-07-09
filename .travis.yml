@@ -8,7 +8,7 @@ install:
   
 script:
   - R -e "source('gspc_rsi.R')"
-  - R -e "source('gspc_rsi.R')"
+  - R -e "source('prob_tree.R')"
 
 deploy:
   provider: pages
