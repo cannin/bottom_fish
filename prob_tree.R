@@ -215,8 +215,8 @@ tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% summary
 tmp_results$diff0[which(tmp_results$diff0 < 0)] %>% summary
 
 pred_up <- lst[idx_cond] %>% unlist %>% sum / lst[idx_all] %>% unlist %>% sum
-pred_up_prnct <- tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% median
-tmp_lst <- list(pred_date=Sys.Date(), pred_time=Sys.time(), cond=q_cond, pred_up=pred_up, pred_up_prnct=pred_up_prnct)
+pred_up_prcnt <- tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% median
+tmp_lst <- list(pred_date=Sys.Date(), pred_time=Sys.time(), cond=q_cond, pred_up=pred_up, pred_up_prcnt=pred_up_prcnt)
 tmp_json <- toJSON(tmp_lst, auto_unbox=TRUE)
 writeLines(tmp_json, "gspc_pred.json")
 
