@@ -192,10 +192,10 @@ results_5[names(results_5)[!grepl("^idx", names(results_5))]] %>% unlist %>% sum
 # Search
 #lst <- results_5
 #q_all <- "up_dn_up_up$"
+q_cond <- paste0("up_", q_all)
 var_name <- paste0("results_", length(strsplit(q_cond, "_")[[1]]))
 lst <- get(var_name)
 q_all <- q_all
-q_cond <- paste0("up_", q_all)
 
 idx_cond <- which(grepl(q_cond, names(lst)) & !grepl("^idx", names(lst)))
 idx_all <- which(grepl(q_all, names(lst)) & !grepl("^idx", names(lst)))
@@ -215,8 +215,8 @@ tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% summary
 tmp_results$diff0[which(tmp_results$diff0 < 0)] %>% summary
 
 pred_up <- lst[idx_cond] %>% unlist %>% sum / lst[idx_all] %>% unlist %>% sum
-pred_up_prnct <- tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% median
-tmp_lst <- list(pred_date=Sys.Date(), pred_time=Sys.time(), cond=q_cond, pred_up=pred_up, pred_up_prnct=pred_up_prnct)
+pred_up_prcnt <- tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% median
+tmp_lst <- list(pred_date=Sys.Date(), pred_time=Sys.time(), cond=q_cond, pred_up=pred_up, pred_up_prcnt=pred_up_prcnt)
 tmp_json <- toJSON(tmp_lst, auto_unbox=TRUE)
 writeLines(tmp_json, "gspc_pred.json")
 
