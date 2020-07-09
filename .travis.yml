@@ -4,7 +4,7 @@ r:
   - release
 
 install: 
-  - R -e "install.packages(c('quantmod', 'jsonlite'))"
+  - R -e "install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong'))"
   
 script:
   - R -e "source('gspc_rsi.R')"
