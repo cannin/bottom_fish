@@ -192,10 +192,10 @@ results_5[names(results_5)[!grepl("^idx", names(results_5))]] %>% unlist %>% sum
 # Search
 #lst <- results_5
 #q_all <- "up_dn_up_up$"
+q_cond <- paste0("up_", q_all)
 var_name <- paste0("results_", length(strsplit(q_cond, "_")[[1]]))
 lst <- get(var_name)
 q_all <- q_all
-q_cond <- paste0("up_", q_all)
 
 idx_cond <- which(grepl(q_cond, names(lst)) & !grepl("^idx", names(lst)))
 idx_all <- which(grepl(q_all, names(lst)) & !grepl("^idx", names(lst)))
