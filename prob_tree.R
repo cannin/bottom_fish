@@ -89,8 +89,8 @@ tmp_idx <- which(grepl(format(Sys.Date(), "%Y"), tmp_dat$date))
 tmp_idx <- tmp_idx[length(tmp_idx)]  
 tmp_dat <- tmp_dat[1:tmp_idx,]
 
-q_all_auto0 <- sapply(1:max_days_auto, function(i) { ifelse((sign(tmp_dat[tmp_idx, paste0("diff0", i)]) > 0), "up", "dn") }) %>% rev %>% paste(., collapse="_") %>% paste0(., "$")
-q_all_auto1 <- sapply(1:max_days_auto, function(i) { ifelse((sign(tmp_dat[tmp_idx, paste0("diff1", i)]) > 0), "up", "dn") }) %>% rev %>% paste(., collapse="_") %>% paste0(., "$")
+q_all_auto0 <- sapply(1:max_days_auto, function(i) { ifelse((sign(tmp_dat[tmp_idx, paste0("diff0", i)]) > 0), "up", "dn") }) %>% paste(., collapse="_") %>% paste0(., "$")
+q_all_auto1 <- sapply(1:max_days_auto, function(i) { ifelse((sign(tmp_dat[tmp_idx, paste0("diff1", i)]) > 0), "up", "dn") }) %>% paste(., collapse="_") %>% paste0(., "$")
 m0 <- tmp_dat[tmp_idx, paste0("diff0", max_days_auto)]
 min_chng_auto0 <- floor(m0)
 max_chng_auto0 <- ceiling(m0)
