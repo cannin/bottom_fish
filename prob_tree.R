@@ -14,10 +14,12 @@ days_offset <- 10
 
 min_chng <- -8
 max_chng <- min_chng + 1
-min_chng <- 1 # Lowest
-max_chng <- 2
+min_chng <- 0 # Lowest
+max_chng <- 1
 
-q_all <- "up_dn_up_up$" # q_cond will always be +1 (up_*)
+q_all <- "dn_up_dn_up$" # q_cond will always be +1 (up_*)
+use_auto <- 0 # Use 0 for reality, 1 for testing (NOTE: IF NOT 0 THEN CHANGE RESULTS MANUALLY)
+max_days_auto <- 4
 
 # DOWNLOAD DATA ----
 # Download and save file 
@@ -50,14 +52,16 @@ dat <- sp500[start_idx:end_idx, ]
 n_na <- length(days_offset:nrow(dat))
 
 tmp_dat <- data.frame(date=character(n_na), open=numeric(n_na), 
-                      close1=numeric(n_na), close2=numeric(n_na), close3=numeric(n_na), close4=numeric(n_na), close5=numeric(n_na), 
-                      diff0=numeric(n_na), diff1=numeric(n_na), diff2=numeric(n_na), diff3=numeric(n_na), diff4=numeric(n_na), diff5=numeric(n_na), 
+                      close0=numeric(n_na), close1=numeric(n_na), close2=numeric(n_na), close3=numeric(n_na), close4=numeric(n_na), close5=numeric(n_na), 
+                      diff01=numeric(n_na), diff02=numeric(n_na), diff03=numeric(n_na), diff04=numeric(n_na), diff05=numeric(n_na), 
+                      diff11=numeric(n_na), diff12=numeric(n_na), diff13=numeric(n_na), diff14=numeric(n_na), diff15=numeric(n_na), 
                       stringsAsFactors = FALSE)
 for(i in days_offset:(nrow(dat))) {
   tmp_dat$date[i-days_offset-1] <- rownames(dat)[i]
   # cat("I: ", i, " ", tmp_dat$date[i-days_offset-1], " ", rownames(dat)[i], "\n")
 
-  tmp_dat$open[i-days_offset-1] <- dat$GSPC.Close[i]
+  tmp_dat$open[i-days_offset-1] <- dat$GSPC.Open[i-0]
+  tmp_dat$close0[i-days_offset-1] <- dat$GSPC.Close[i-0]
   tmp_dat$close1[i-days_offset-1] <- dat$GSPC.Close[i-1]
   tmp_dat$close2[i-days_offset-1] <- dat$GSPC.Close[i-2]
   tmp_dat$close3[i-days_offset-1] <- dat$GSPC.Close[i-3]
@@ -65,14 +69,18 @@ for(i in days_offset:(nrow(dat))) {
   tmp_dat$close5[i-days_offset-1] <- dat$GSPC.Close[i-5]
 
   # Just yesterday
-  tmp_dat$diff0[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-0]-dat$GSPC.Close[i-1])/dat$GSPC.Close[i-1], 3)  
+  tmp_dat$diff01[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-0]-dat$GSPC.Close[i-1])/dat$GSPC.Close[i-1], 3)  
+  tmp_dat$diff02[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-0]-dat$GSPC.Close[i-2])/dat$GSPC.Close[i-2], 3)
+  tmp_dat$diff03[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-0]-dat$GSPC.Close[i-3])/dat$GSPC.Close[i-3], 3)
+  tmp_dat$diff04[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-0]-dat$GSPC.Close[i-4])/dat$GSPC.Close[i-4], 3)
+  tmp_dat$diff05[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-0]-dat$GSPC.Close[i-5])/dat$GSPC.Close[i-5], 3)
   
   # Excluding yesterday, trailing
-  tmp_dat$diff1[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-2])/dat$GSPC.Close[i-2], 3)
-  tmp_dat$diff2[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-3])/dat$GSPC.Close[i-3], 3)
-  tmp_dat$diff3[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-4])/dat$GSPC.Close[i-4], 3)
-  tmp_dat$diff4[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-5])/dat$GSPC.Close[i-5], 3)
-  tmp_dat$diff5[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-6])/dat$GSPC.Close[i-6], 3)
+  tmp_dat$diff11[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-2])/dat$GSPC.Close[i-2], 3)
+  tmp_dat$diff12[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-3])/dat$GSPC.Close[i-3], 3)
+  tmp_dat$diff13[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-4])/dat$GSPC.Close[i-4], 3)
+  tmp_dat$diff14[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-5])/dat$GSPC.Close[i-5], 3)
+  tmp_dat$diff15[i-days_offset-1] <- round(100*(dat$GSPC.Close[i-1]-dat$GSPC.Close[i-6])/dat$GSPC.Close[i-6], 3)
 }
 
 # BAD HACK: FIXME (BUT BETTER)
@@ -80,6 +88,25 @@ for(i in days_offset:(nrow(dat))) {
 tmp_idx <- which(grepl(format(Sys.Date(), "%Y"), tmp_dat$date))
 tmp_idx <- tmp_idx[length(tmp_idx)]  
 tmp_dat <- tmp_dat[1:tmp_idx,]
+
+q_all_auto0 <- sapply(1:max_days_auto, function(i) { ifelse((sign(tmp_dat[tmp_idx, paste0("diff0", i)]) > 0), "up", "dn") }) %>% rev %>% paste(., collapse="_") %>% paste0(., "$")
+q_all_auto1 <- sapply(1:max_days_auto, function(i) { ifelse((sign(tmp_dat[tmp_idx, paste0("diff1", i)]) > 0), "up", "dn") }) %>% rev %>% paste(., collapse="_") %>% paste0(., "$")
+m0 <- tmp_dat[tmp_idx, paste0("diff0", max_days_auto)]
+min_chng_auto0 <- floor(m0)
+max_chng_auto0 <- ceiling(m0)
+m1 <- tmp_dat[tmp_idx, paste0("diff1", max_days_auto)]
+min_chng_auto1 <- floor(m1)
+max_chng_auto1 <- ceiling(m1)
+
+if(use_auto == 0) {
+  min_chng <- min_chng_auto0
+  max_chng <- max_chng_auto0
+  q_all <- q_all_auto0
+} else if(use_auto == 1) {
+  min_chng <- min_chng_auto1
+  max_chng <- max_chng_auto1
+  q_all <- q_all_auto1
+}
 
 # OTHERS ----
 # min_chng <- -8
@@ -93,7 +120,7 @@ results_1 <- list()
 
 for(i in 1:nrow(opts_1)) {
   #i <- 4
-  tmpl_1 <- qq(paste0("which(tmp_dat$open @{opts_1[", i, ",1]} tmp_dat$close1)"))
+  tmpl_1 <- qq(paste0("which(tmp_dat$close0 @{opts_1[", i, ",1]} tmp_dat$close1)"))
   tmpl_1
   
   tmp_label <- labels_1[i,] %>% paste(., collapse = "_")
@@ -111,7 +138,7 @@ results_2 <- list()
 
 for(i in 1:nrow(opts_2)) {
   #i <- 4
-  tmpl_2 <- qq(paste0("which(tmp_dat$diff1 < @{max_chng} & tmp_dat$diff1 > @{min_chng} & tmp_dat$open @{opts_2[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_2[", i, ",2]} tmp_dat$close2)"))
+  tmpl_2 <- qq(paste0("which(tmp_dat$diff11 < @{max_chng} & tmp_dat$diff11 > @{min_chng} & tmp_dat$close0 @{opts_2[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_2[", i, ",2]} tmp_dat$close2)"))
   tmpl_2
   
   tmp_label <- labels_2[i,] %>% paste(., collapse = "_")
@@ -129,7 +156,7 @@ results_3 <- list()
 
 for(i in 1:nrow(opts_3)) {
   #i <- 4
-  tmpl_3 <- qq(paste0("which(tmp_dat$diff2 < @{max_chng} & tmp_dat$diff2 > @{min_chng} & tmp_dat$open @{opts_3[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_3[", i, ",2]} tmp_dat$close2 & tmp_dat$close2 @{opts_3[", i, ",3]} tmp_dat$close3)"))
+  tmpl_3 <- qq(paste0("which(tmp_dat$diff12 < @{max_chng} & tmp_dat$diff12 > @{min_chng} & tmp_dat$close0 @{opts_3[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_3[", i, ",2]} tmp_dat$close2 & tmp_dat$close2 @{opts_3[", i, ",3]} tmp_dat$close3)"))
   tmpl_3
   
   tmp_label <- labels_3[i,] %>% paste(., collapse = "_")
@@ -147,7 +174,7 @@ results_4 <- list()
 
 for(i in 1:nrow(opts_4)) {
   #i <- 4
-  tmpl_4 <- qq(paste0("which(tmp_dat$diff3 < @{max_chng} & tmp_dat$diff3 > @{min_chng} & tmp_dat$open @{opts_4[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_4[", i, ",2]} tmp_dat$close2 & tmp_dat$close2 @{opts_4[", i, ",3]} tmp_dat$close3 & tmp_dat$close3 @{opts_4[", i, ",4]} tmp_dat$close4)"))
+  tmpl_4 <- qq(paste0("which(tmp_dat$diff13 < @{max_chng} & tmp_dat$diff13 > @{min_chng} & tmp_dat$close0 @{opts_4[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_4[", i, ",2]} tmp_dat$close2 & tmp_dat$close2 @{opts_4[", i, ",3]} tmp_dat$close3 & tmp_dat$close3 @{opts_4[", i, ",4]} tmp_dat$close4)"))
   tmpl_4
   
   tmp_label <- labels_4[i,] %>% paste(., collapse = "_")
@@ -163,7 +190,7 @@ results_5 <- list()
 
 for(i in 1:nrow(opts_5)) {
   #i <- 4
-  tmpl_5 <- qq(paste0("which(tmp_dat$diff4 < @{max_chng} & tmp_dat$diff4 > @{min_chng} & tmp_dat$open @{opts_5[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_5[", i, ",2]} tmp_dat$close2 & tmp_dat$close2 @{opts_5[", i, ",3]} tmp_dat$close3 & tmp_dat$close3 @{opts_5[", i, ",4]} tmp_dat$close4 & tmp_dat$close4 @{opts_5[", i, ",5]} tmp_dat$close5)"))
+  tmpl_5 <- qq(paste0("which(tmp_dat$diff14 < @{max_chng} & tmp_dat$diff14 > @{min_chng} & tmp_dat$close0 @{opts_5[", i, ",1]} tmp_dat$close1 & tmp_dat$close1 @{opts_5[", i, ",2]} tmp_dat$close2 & tmp_dat$close2 @{opts_5[", i, ",3]} tmp_dat$close3 & tmp_dat$close3 @{opts_5[", i, ",4]} tmp_dat$close4 & tmp_dat$close4 @{opts_5[", i, ",5]} tmp_dat$close5)"))
   tmpl_5
   
   tmp_label <- labels_5[i,] %>% paste(., collapse = "_")
@@ -203,21 +230,31 @@ idx_idx <- which(grepl(q_all, names(lst)) & grepl("^idx", names(lst)))
 var_name
 q_cond
 q_all
-lst[idx_cond] %>% unlist %>% sum / lst[idx_all] %>% unlist %>% sum 
+pred_up <- lst[idx_cond] %>% unlist %>% sum / lst[idx_all] %>% unlist %>% sum 
+pred_up
 lst[idx_all]
-lst[idx_cond] %>% unlist %>% sum
-lst[idx_all] %>% unlist %>% sum
-tmp_dat[unname(unlist(lst[idx_idx])),] %>% nrow
+cond_cnt <- lst[idx_cond] %>% unlist %>% sum
+all_cnt <- lst[idx_all] %>% unlist %>% sum
+cond_cnt
+all_cnt
 tmp_results <- tmp_dat[unname(unlist(lst[idx_idx])),]
 min_chng
 max_chng
-tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% summary
-tmp_results$diff0[which(tmp_results$diff0 < 0)] %>% summary
+tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% summary
+tmp_results$diff01[which(tmp_results$diff01 < 0)] %>% summary
 
-pred_up <- lst[idx_cond] %>% unlist %>% sum / lst[idx_all] %>% unlist %>% sum
-pred_up_prcnt <- tmp_results$diff0[which(tmp_results$diff0 >= 0)] %>% median
-tmp_lst <- list(pred_date=Sys.Date(), pred_time=Sys.time(), cond=q_cond, pred_up=pred_up, pred_up_prcnt=pred_up_prcnt)
+pred_up_prcnt <- tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% median
+tmp_lst <- list(pred_date=Sys.Date(), 
+                pred_time=Sys.time(), 
+                pred_up=pred_up, 
+                pred_up_prcnt=pred_up_prcnt,
+                cond_cnt=cond_cnt,
+                all_cnt=all_cnt,
+                cond=q_cond, 
+                min_chng=min_chng,
+                max_chng=max_chng)
 tmp_json <- toJSON(tmp_lst, auto_unbox=TRUE)
+tmp_json
 writeLines(tmp_json, "gspc_pred.json")
 
 # EXAMPLE 
