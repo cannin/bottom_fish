@@ -21,7 +21,7 @@ q_all <- "dn_up_dn_up$" # q_cond will always be +1 (up_*)
 use_auto <- 0 # Use 0 for reality, 1 for testing (NOTE: IF NOT 0 THEN CHANGE RESULTS MANUALLY)
 max_days_auto <- 4
 
-# DOWNLOAD DATA ----
+# LOAD DATA ----
 # Download and save file 
 tmp_dates <- c(as.Date(start_date), as.Date(end_date)-1)
 dat_filename <- paste0("sp500_", paste(format(tmp_dates, format="%Y%m%d"), collapse = "_"), ".rds")
@@ -42,6 +42,7 @@ tmp_filename
 sp500 <- readRDS(tmp_filename) %>% as.data.frame
 #sp500 <- readRDS("sp500_19800102_20200629.rds") %>% as.data.frame
 
+# FILTER DATA ----
 start_idx <- which(rownames(sp500) == "2006-01-03")
 start_idx <- 1
 end_idx <- nrow(sp500)
@@ -244,7 +245,8 @@ tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% summary
 tmp_results$diff01[which(tmp_results$diff01 < 0)] %>% summary
 
 pred_up_prcnt <- tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% median
-tmp_lst <- list(pred_date=Sys.Date(), 
+tmp_lst <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
+                pred_date=Sys.Date(), 
                 pred_time=Sys.time(), 
                 pred_up=pred_up, 
                 pred_up_prcnt=pred_up_prcnt,
