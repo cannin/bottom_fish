@@ -23,13 +23,19 @@ max_days_auto <- 4
 
 # LOAD DATA ----
 # Download and save file 
-tmp_dates <- c(as.Date(start_date), as.Date(end_date)-1)
+tmp_dates <- c(as.Date(start_date), as.Date(end_date))
 dat_filename <- paste0("sp500_", paste(format(tmp_dates, format="%Y%m%d"), collapse = "_"), ".rds")
 dat_filename
 
 if(!file.exists(dat_filename)) {
   dat <- getSymbols(symbol, auto.assign=FALSE, from=start_date, to=end_date)
   dat_df <- as.data.frame(dat)
+  
+  cur_day_dat <- getQuote(symbol)
+  tmp_df <- data.frame(GSPC.Open=cur_day_dat$Open, GSPC.High=cur_day_dat$High, GSPC.Low=cur_day_dat$Low, GSPC.Close=cur_day_dat$Last, GSPC.Volume=cur_day_dat$Volume, GSPC.Adjusted=NA)
+  dat_df <- rbind(dat_df, tmp_df)
+  rownames(dat_df)[nrow(dat_df)] <- as.character(Sys.Date())
+
   tmp_dates <- as.Date(c(rownames(dat_df)[1], rownames(dat_df)[nrow(dat_df)]))
   saveRDS(dat_df, dat_filename)
 }
