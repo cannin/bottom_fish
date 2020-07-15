@@ -252,6 +252,7 @@ tmp_results$diff01[which(tmp_results$diff01 < 0)] %>% summary
 
 pred_up_prcnt <- tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% median
 tmp_lst <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
+                last_close_price=tmp_dat
                 pred_date=Sys.Date(), 
                 pred_time=Sys.time(), 
                 pred_up=pred_up, 
