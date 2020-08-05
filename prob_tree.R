@@ -110,6 +110,8 @@ tmp_idx <- which(grepl(format(Sys.Date(), "%Y"), tmp_dat$date))
 tmp_idx <- tmp_idx[length(tmp_idx)]  
 tmp_dat <- tmp_dat[1:tmp_idx,]
 
+cat("LAST: ", unlist(tmp_dat[nrow(tmp_dat),]), "\n")
+
 # Signed query 
 signPastDays <- (sign(tmp_dat[nrow(tmp_dat):(nrow(tmp_dat)-10), "diff01"]))
 #signPastDays <- c(1,  1,  1,  1, -1,  1,  1)
@@ -365,6 +367,8 @@ for(j in 1:length(parameters)) {
                       cond=q_cond,
                       min_chng=min_chng,
                       max_chng=max_chng)
+  
+  cat("OUT: ", as.character(toJSON(tmp_results, auto_unbox=TRUE)), "\n")
   
   all_results[[name]] <- tmp_results
 }
