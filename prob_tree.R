@@ -18,7 +18,7 @@ min_chng <- 0 # Lowest
 max_chng <- 1
 
 q_all <- "dn_up_dn_up$" # q_cond will always be +1 (up_*)
-use_auto <- 0 # Use 0 for reality, 1 for testing (NOTE: IF NOT 0 THEN CHANGE RESULTS MANUALLY)
+use_auto <- 0 # Use 0 for production, 1 for testing (NOTE: IF NOT 0 THEN CHANGE RESULTS MANUALLY)
 max_days_auto <- 4
 
 # LOAD DATA ----
@@ -105,6 +105,7 @@ for(i in days_offset:(nrow(dat))) {
 }
 
 # BAD HACK: FIXME (BUT BETTER)
+# NOTE: 2021-03-06 NOT SURE WHAT PROBLEM WAS FIXED; Old date entry? 
 #tmp_dat <- head(tmp_dat, (nrow(tmp_dat)-days_offset))
 tmp_idx <- which(grepl(format(Sys.Date(), "%Y"), tmp_dat$date))
 tmp_idx <- tmp_idx[length(tmp_idx)]  
@@ -112,18 +113,25 @@ tmp_dat <- tmp_dat[1:tmp_idx,]
 
 cat("LAST: ", unlist(tmp_dat[nrow(tmp_dat),]), "\n")
 
-# Signed query 
+# Get signs for day changes
+# Previous day to current: 0: no change, 1: positive change, -1: negative change
 signPastDays <- (sign(tmp_dat[nrow(tmp_dat):(nrow(tmp_dat)-10), "diff01"]))
 #signPastDays <- c(1,  1,  1,  1, -1,  1,  1)
-  
+
+# Get streak
 tmpStreakDay <- 1
 # Start with day 2, subtract 1 to account for the first day
 while(signPastDays[2+tmpStreakDay-1] == signPastDays[1]) {
   tmpStreakDay <- tmpStreakDay + 1
 }
+
+# Get signs of the days in the streak
 curSignPastDays <- signPastDays[1:tmpStreakDay]
+
+# Make querys and get the min/max intervals of change
+# Signed query
 q_all_sign_auto0 <- sapply(1:length(curSignPastDays), function(i) { ifelse(curSignPastDays[i] > 0, "up", "dn") }) %>% paste(., collapse="_") %>% paste0(., "$")
-m0 <- tmp_dat[tmp_idx, paste0("diff0", tmpStreakDay)]
+m0 <- tmp_dat[tmp_idx, paste0("diff0", tmpStreakDay)] # the last date entry
 min_chng_sign_auto0 <- floor(m0)
 max_chng_sign_auto0 <- ceiling(m0)
 
@@ -137,26 +145,32 @@ m1 <- tmp_dat[tmp_idx, paste0("diff1", max_days_auto)]
 min_chng_auto1 <- floor(m1)
 max_chng_auto1 <- ceiling(m1)
 
+# Set parameters
 if(use_auto == 0) {
   min_chng <- min_chng_auto0
   max_chng <- max_chng_auto0
   q_all <- q_all_auto0
+  days_checked <- max_days_auto
   
   min_chng_sign <- min_chng_sign_auto0
   max_chng_sign <- max_chng_sign_auto0
   q_all_sign <- q_all_sign_auto0
+  days_checked_sign <- tmpStreakDay
 } else if(use_auto == 1) {
   min_chng <- min_chng_auto1
   max_chng <- max_chng_auto1
   q_all <- q_all_auto1
+  days_checked <- max_days_auto
   
   min_chng_sign <- NA
   max_chng_sign <- NA
   q_all_sign <- NA
+  days_checked_sign <- tmpStreakDay
 }
 
-parameters <- list(base=list(min_chng=min_chng, max_chng=max_chng, q_all=q_all), 
-                   sign=list(min_chng=min_chng_sign, max_chng=max_chng_sign, q_all=q_all_sign))
+# base looks back max_days_auto vs sign looks back only for the streak
+parameters <- list(base=list(min_chng=min_chng, max_chng=max_chng, q_all=q_all, days_checked=days_checked), 
+                   sign=list(min_chng=min_chng_sign, max_chng=max_chng_sign, q_all=q_all_sign, days_checked=days_checked_sign))
 all_results <- list()
 
 for(j in 1:length(parameters)) {
@@ -332,17 +346,21 @@ for(j in 1:length(parameters)) {
   # results_8[names(results_8)[grepl("^up", names(results_8))]] %>% unlist %>% sum / results_8[names(results_8)[!grepl("^idx", names(results_8))]] %>% unlist %>% sum
   # results_8[names(results_8)[!grepl("^idx", names(results_8))]] %>% unlist %>% sum
 
-  # Search
+  # SEARCH ----
+  ## Extract into lst the results that match up to the condition (streak of days)
   #lst <- results_5
   #q_all <- "up_dn_up_up$"
   q_cond <- paste0("up_", q_all)
   var_name <- paste0("results_", length(strsplit(q_cond, "_")[[1]]))
   lst <- get(var_name)
-  q_all <- q_all
+  q_all <- q_all # not needed, but to have the entry
   
-  idx_cond <- which(grepl(q_cond, names(lst)) & !grepl("^idx", names(lst)))
-  idx_all <- which(grepl(q_all, names(lst)) & !grepl("^idx", names(lst)))
-  idx_idx <- which(grepl(q_all, names(lst)) & grepl("^idx", names(lst)))
+  # Grab either the condition or the index entry
+  ## q_cond is with the extra current day
+  idx_cond <- which(grepl(q_cond, names(lst)) & !grepl("^idx", names(lst))) 
+  ## q_all is the original condition; idx will match for up AND down versions of q_cond
+  idx_all <- which(grepl(q_all, names(lst)) & !grepl("^idx", names(lst))) 
+  idx_idx <- which(grepl(q_all, names(lst)) &  grepl("^idx", names(lst)))
   var_name
   q_cond
   q_all
@@ -353,6 +371,7 @@ for(j in 1:length(parameters)) {
   all_cnt <- lst[idx_all] %>% unlist %>% sum
   cond_cnt
   all_cnt
+  # Days with X+q_cond; NOTE: do not look for original values here
   tmp_results <- tmp_dat[unname(unlist(lst[idx_idx])),]
   min_chng
   max_chng
@@ -366,7 +385,8 @@ for(j in 1:length(parameters)) {
                       all_cnt=all_cnt,
                       cond=q_cond,
                       min_chng=min_chng,
-                      max_chng=max_chng)
+                      max_chng=max_chng,
+                      days_checked=days_checked)
   
   cat("OUT: ", as.character(toJSON(tmp_results, auto_unbox=TRUE)), "\n")
   
@@ -377,22 +397,27 @@ results <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
                 last_close_price=tmp_dat$close0[nrow(tmp_dat)],
                 pred_date=Sys.Date(), 
                 pred_time=Sys.time(), 
+                max_days_auto_prices=paste(round(tmp_dat$close0[nrow(tmp_dat):(nrow(tmp_dat)-max_days_auto+1)], 2), collapse="|"),
                 
                 pred_up=all_results[["base"]]$pred_up, 
                 pred_up_prcnt=all_results[["base"]]$pred_up_prcnt,
                 cond_cnt=all_results[["base"]]$cond_cnt,
                 all_cnt=all_results[["base"]]$all_cnt,
-                cond=all_results[["base"]]$cond, 
+                cond=all_results[["base"]]$cond,
                 min_chng=all_results[["base"]]$min_chng,
                 max_chng=all_results[["base"]]$max_chng,
+                days_checked=all_results[["base"]]$days_checked,
                 
                 pred_up_sign=all_results[["sign"]]$pred_up, 
                 pred_up_prcnt_sign=all_results[["sign"]]$pred_up_prcnt,
                 cond_cnt_sign=all_results[["sign"]]$cond_cnt,
                 all_cnt_sign=all_results[["sign"]]$all_cnt,
                 cond_sign=all_results[["sign"]]$cond, 
+                cond_prices_sign=all_results[["base"]]$cond_prices,
                 min_chng_sign=all_results[["sign"]]$min_chng,
-                max_chng_sign=all_results[["sign"]]$max_chng)
+                max_chng_sign=all_results[["sign"]]$max_chng,
+                days_checked=all_results[["sign"]]$days_checked
+                )
 
 tmp_json <- toJSON(results, auto_unbox=TRUE)
 tmp_json
