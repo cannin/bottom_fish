@@ -4,7 +4,7 @@ r:
   - release
 
 install: 
-  - R -e "install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong'))"
+  - R -e "install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'tidyverse'))"
   
 script:
   - R -e "source('gspc_rsi.R')"
@@ -16,6 +16,7 @@ deploy:
     - gspc.json
     - gspc.txt
     - gspc_pred.json
+    - fear_greed.json
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   keep_history: true
