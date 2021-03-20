@@ -423,6 +423,21 @@ tmp_json <- toJSON(results, auto_unbox=TRUE)
 tmp_json
 writeLines(tmp_json, "gspc_pred.json")
 
+# FIXME: MOVE THIS
+library(tidyverse)
+
+#curl -s https://money.cnn.com/data/fear-and-greed/ | ~/go/bin/pup 'div#needleChart ul li:first-child text{}' | ggrep -oP '\d+'
+
+date <- Sys.Date()
+fear_greed <- xml2::read_html("https://money.cnn.com/data/fear-and-greed/") %>%
+  rvest::html_node("div#needleChart ul li:first-child") %>%
+  rvest::html_text() %>% 
+  readr::parse_number()
+
+tmp <- list(date=date, fear_greed=fear_greed)
+tmp_json <- toJSON(tmp, auto_unbox=TRUE)
+writeLines(tmp_json, "fear_greed.json")
+
 # EXAMPLE 
 # 2020-04-16	2799.55	2783.36	2846.06	2761.63	2789.82	2749.98	0.582	-2.203	0.787	-0.232	1.214	4.661
 # results_4 found Apr 9-15, dn_up_dn followed by up on 16
