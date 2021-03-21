@@ -391,13 +391,18 @@ for(j in 1:length(parameters)) {
   
   pred_up_prcnt <- tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% median
   
-  t1 <- binom.test(cond_cnt, all_cnt, conf.level=0.9)
+  if(cond_cnt > 0 && all_cnt > 0) {
+    t1 <- binom.test(cond_cnt, all_cnt, conf.level=0.9)
+    low_conf_90 <- t1$conf.int[1]
+  } else {
+    low_conf_90 <- 0
+  }
   
   tmp_results <- list(pred_up=pred_up, 
                       pred_up_prcnt=pred_up_prcnt,
                       cond_cnt=cond_cnt,
                       all_cnt=all_cnt,
-                      low_conf_90=t1$conf.int[1],
+                      low_conf_90=low_conf_90,
                       cond=q_cond,
                       min_chng=min_chng,
                       max_chng=max_chng,
