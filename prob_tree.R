@@ -438,7 +438,7 @@ results <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
                 cond_prices_sign=all_results[["base"]]$cond_prices,
                 min_chng_sign=all_results[["sign"]]$min_chng,
                 max_chng_sign=all_results[["sign"]]$max_chng,
-                days_checked=all_results[["sign"]]$days_checked,
+                days_checked_sign=all_results[["sign"]]$days_checked,
                 
                 fear_greed=fear_greed
                 )
