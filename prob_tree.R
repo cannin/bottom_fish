@@ -3,6 +3,17 @@ library(quantmod)
 library(GetoptLong)
 library(jsonlite)
 
+# FIXME: MOVE THIS ----
+library(tidyverse)
+
+#curl -s https://money.cnn.com/data/fear-and-greed/ | ~/go/bin/pup 'div#needleChart ul li:first-child text{}' | ggrep -oP '\d+'
+
+fear_greed <- xml2::read_html("https://money.cnn.com/data/fear-and-greed/") %>%
+  rvest::html_node("div#needleChart ul li:first-child") %>%
+  rvest::html_text() %>% 
+  readr::parse_number()
+# FIXME: MOVE THIS ----
+
 # PARAMETERS ----
 start_date <- "2006-01-03"
 start_date <- "1980-01-02"
@@ -379,10 +390,19 @@ for(j in 1:length(parameters)) {
   tmp_results$diff01[which(tmp_results$diff01 < 0)] %>% summary
   
   pred_up_prcnt <- tmp_results$diff01[which(tmp_results$diff01 >= 0)] %>% median
+  
+  if(cond_cnt > 0 && all_cnt > 0) {
+    t1 <- binom.test(cond_cnt, all_cnt, conf.level=0.9)
+    low_conf_90 <- t1$conf.int[1]
+  } else {
+    low_conf_90 <- 0
+  }
+  
   tmp_results <- list(pred_up=pred_up, 
                       pred_up_prcnt=pred_up_prcnt,
                       cond_cnt=cond_cnt,
                       all_cnt=all_cnt,
+                      low_conf_90=low_conf_90,
                       cond=q_cond,
                       min_chng=min_chng,
                       max_chng=max_chng,
@@ -403,6 +423,7 @@ results <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
                 pred_up_prcnt=all_results[["base"]]$pred_up_prcnt,
                 cond_cnt=all_results[["base"]]$cond_cnt,
                 all_cnt=all_results[["base"]]$all_cnt,
+                low_conf_90=all_results[["base"]]$low_conf_90, 
                 cond=all_results[["base"]]$cond,
                 min_chng=all_results[["base"]]$min_chng,
                 max_chng=all_results[["base"]]$max_chng,
@@ -412,31 +433,19 @@ results <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
                 pred_up_prcnt_sign=all_results[["sign"]]$pred_up_prcnt,
                 cond_cnt_sign=all_results[["sign"]]$cond_cnt,
                 all_cnt_sign=all_results[["sign"]]$all_cnt,
+                low_conf_90=all_results[["sign"]]$low_conf_90, 
                 cond_sign=all_results[["sign"]]$cond, 
                 cond_prices_sign=all_results[["base"]]$cond_prices,
                 min_chng_sign=all_results[["sign"]]$min_chng,
                 max_chng_sign=all_results[["sign"]]$max_chng,
-                days_checked=all_results[["sign"]]$days_checked
+                days_checked=all_results[["sign"]]$days_checked,
+                
+                fear_greed=fear_greed
                 )
 
 tmp_json <- toJSON(results, auto_unbox=TRUE)
 tmp_json
 writeLines(tmp_json, "gspc_pred.json")
-
-# FIXME: MOVE THIS
-library(tidyverse)
-
-#curl -s https://money.cnn.com/data/fear-and-greed/ | ~/go/bin/pup 'div#needleChart ul li:first-child text{}' | ggrep -oP '\d+'
-
-date <- Sys.Date()
-fear_greed <- xml2::read_html("https://money.cnn.com/data/fear-and-greed/") %>%
-  rvest::html_node("div#needleChart ul li:first-child") %>%
-  rvest::html_text() %>% 
-  readr::parse_number()
-
-tmp <- list(date=date, fear_greed=fear_greed)
-tmp_json <- toJSON(tmp, auto_unbox=TRUE)
-writeLines(tmp_json, "fear_greed.json")
 
 # EXAMPLE 
 # 2020-04-16	2799.55	2783.36	2846.06	2761.63	2789.82	2749.98	0.582	-2.203	0.787	-0.232	1.214	4.661
