@@ -418,6 +418,7 @@ results <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
                 pred_date=Sys.Date(), 
                 pred_time=Sys.time(), 
                 max_days_auto_prices=paste(round(tmp_dat$close0[nrow(tmp_dat):(nrow(tmp_dat)-max_days_auto+1)], 2), collapse="|"),
+                dat_rows=nrow(tmp_dat),
                 
                 pred_up=all_results[["base"]]$pred_up, 
                 pred_up_prcnt=all_results[["base"]]$pred_up_prcnt,
