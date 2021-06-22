@@ -32,7 +32,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-                    
       - name: Run
         run: |
-          install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'tidyverse'))
+          install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'xml2', 'readr', 'rvest'))
           source('gspc_rsi.R')
           source('prob_tree.R')
         shell: Rscript {0}
