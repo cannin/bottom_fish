@@ -4,7 +4,10 @@ library(GetoptLong)
 library(jsonlite)
 
 # FIXME: MOVE THIS ----
-library(tidyverse)
+#library(tidyverse)
+library(xml2)
+library(readr)
+library(rvest)
 
 #curl -s https://money.cnn.com/data/fear-and-greed/ | ~/go/bin/pup 'div#needleChart ul li:first-child text{}' | ggrep -oP '\d+'
 

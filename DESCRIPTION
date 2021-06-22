@@ -1,0 +1,21 @@
+Package: bottom_fish
+Type: Package
+Title: Bottom Fish
+Version: 0.99.1
+Date: 2021-06-22
+Author: TBA
+Maintainer: TBA
+Description: TBA
+License: Apache License (>= 2)
+LazyData: true
+Depends:
+    R (>= 3.5)
+    quantmod
+    jsonlite
+    magrittr
+    GetoptLong
+    xml2
+    readr
+    rvest
+RoxygenNote: 7.1.1
+Encoding: UTF-8
