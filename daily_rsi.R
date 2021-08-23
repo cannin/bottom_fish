@@ -1,12 +1,12 @@
 library(quantmod)
 library(jsonlite)
-library(lubridate)
 
 options("getSymbols.warning4.0"=FALSE)
 
 # PARAMETERS ----
 # Prevent getting the same day twice
-if(hour(Sys.time()) > 9) {
+cur_hour <- as.numeric(format(as.POSIXct(Sys.time(),format="%H:%M:%S"),"%H"))
+if(cur_hour > 9) {
   get_cur_date <- TRUE
 } else {
   get_cur_date <- FALSE
