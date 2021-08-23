@@ -4,7 +4,7 @@ on:
       - main
       - master
   schedule:
-    - cron:  '30 20 * * *'
+    - cron:  '30 15,20 * * *'
 
 name: r_build
 
@@ -35,6 +35,7 @@ jobs:
           install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'tidyverse'))
           source('gspc_rsi.R')
           source('prob_tree.R')
+          source('daily_rsi.R')
         shell: Rscript {0}
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
