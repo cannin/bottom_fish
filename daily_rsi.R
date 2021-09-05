@@ -12,7 +12,7 @@ if(cur_hour > 9) {
   get_cur_date <- FALSE
 }
 
-symbols <- c("AGG", "GBTC", "IPO", "MUB", "QQQ", "RJA", "SSO", "SFYF", "SPTM", "TIP", "USRT", "VTI", "VXUS")
+symbols <- c("AGG", "GBTC", "IPO", "MUB", "QQQ", "RJA", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY")
 offset <- 30
 hi_rsi <- 65
 lo_rsi <- 41
