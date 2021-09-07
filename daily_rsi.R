@@ -91,7 +91,7 @@ vals_str <- paste(names(vals), vals, collapse="_", sep=":")
 vals_str <- paste0(vals_str, "_", last_date)
 
 #run_time <- substr(capture.output(as.POSIXct(Sys.time(), tz="America/New_York")), 6, 28)
-run_time <- lubridate::with_tz(Sys.time(), "America/New_York")
+run_time <- lubridate::now(tz="America/New_York")
 lst <- list(run_time=run_time, date=last_date, hi_rsi=hi_rsi, lo_rsi=lo_rsi, result_str=vals_str, result_df=vals_df)
 
 # WRITE RESULTS ----
