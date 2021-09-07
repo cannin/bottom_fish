@@ -24,13 +24,13 @@ jobs:
         with:
           r-version: '3.6.2'     
           
-      - name: Query dependencies
+      - name: Query Dependencies
         run: |
           saveRDS(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'xml2', 'readr', 'rvest'), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
-      - name: Restore R package cache
+      - name: Restore R Package Cache
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -49,18 +49,3 @@ jobs:
         with:
           branch: gh-pages
           folder: .
-
-# IGNORE 
-#
-#      - name: Dependencies
-#        run: |
-#          install.packages('remotes')
-#          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-#          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-#        shell: Rscript {0}
-#      - name: Cache
-#        uses: actions/cache@v2
-#        with:
-#          path: ${{ env.R_LIBS_USER }}
-#          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-#          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-        
