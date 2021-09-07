@@ -89,10 +89,13 @@ last_date <- s3$VTI.date[nrow(s3)]
 vals_str <- paste(names(vals), vals, collapse="_", sep=":")
 vals_str <- paste0(vals_str, "_", last_date)
 
-lst <- list(run_time=as.POSIXct(Sys.time(), tz="America/New_York"), date=last_date, hi_rsi=hi_rsi, lo_rsi=lo_rsi, result_str=vals_str, result_df=vals_df)
+run_time <- substr(capture.output(as.POSIXct(Sys.time(), tz="America/New_York")), 6, 28)
+lst <- list(run_time=run_time, date=last_date, hi_rsi=hi_rsi, lo_rsi=lo_rsi, result_str=vals_str, result_df=vals_df)
 
 # WRITE RESULTS ----
 json <- toJSON(lst, digits=2, auto_unbox=TRUE, rownames=FALSE)
 write(json, "rsi.json")
 
 cat(dir())
+readLines("rsi.json")
+
