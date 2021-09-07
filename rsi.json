@@ -1,1 +1,1 @@
-{"run_time":"2021-09-07 08:40:10","date":"2021-09-03","hi_rsi":65,"lo_rsi":41,"result_str":"IPO:66.9_MUB:28.9_QQQ:67.9_SSO:66.6_USRT:74.1_VTI:65.8_VT:65.6_AOA:67.1_2021-09-03"}
+{"run_time":"2021-09-07 15:08:18","date":"2021-09-07","hi_rsi":65,"lo_rsi":41,"result_str":"IPO:68.4_MUB:22.1_QQQ:68.3_BNDW:35.1_2021-09-07","result_df":[{"symbol":"IPO","rsi":68.4},{"symbol":"MUB","rsi":22.1},{"symbol":"QQQ","rsi":68.3},{"symbol":"BNDW","rsi":35.1}]}
