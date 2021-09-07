@@ -82,7 +82,7 @@ i3 <- which(!is.na(s4))
 
 vals <- unlist(s4[i3])
 names(vals) <- gsub(".rsi", "", names(vals))
-vals_df <- data.frame(symbol=gsub(".rsi", "", names(vals)), vals=vals, stringsAsFactors=FALSE)
+vals_df <- data.frame(symbol=gsub(".rsi", "", names(vals)), rsi=vals, stringsAsFactors=FALSE)
 
 last_date <- s3$VTI.date[nrow(s3)]
 
