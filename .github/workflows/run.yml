@@ -10,7 +10,7 @@ name: r_build
 
 jobs:
   r_build:
-    runs-on: windows-latest
+    runs-on: ubuntu-20.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
