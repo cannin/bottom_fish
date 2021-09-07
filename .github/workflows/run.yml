@@ -39,7 +39,8 @@ jobs:
           
       - name: Run
         run: |
-          install.packages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'xml2', 'readr', 'rvest'))
+          source('https://gist.githubusercontent.com/cannin/6b8c68e7db19c4902459/raw/783263f87ac60c6346c0bee6d7e3eaf239ab7323/installPackages.R')
+          installPackages(c('quantmod', 'jsonlite', 'magrittr', 'GetoptLong', 'xml2', 'readr', 'rvest'))
           source('gspc_rsi.R')
           source('prob_tree.R')
           source('daily_rsi.R')
