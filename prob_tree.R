@@ -2,6 +2,7 @@ library(magrittr)
 library(quantmod)
 library(GetoptLong)
 library(jsonlite)
+library(lubridate)
 
 # FIXME: MOVE THIS ----
 #library(tidyverse)
@@ -419,7 +420,7 @@ for(j in 1:length(parameters)) {
 results <- list(last_close_date=tmp_dat$date[nrow(tmp_dat)],
                 last_close_price=tmp_dat$close0[nrow(tmp_dat)],
                 pred_date=Sys.Date(), 
-                pred_time=Sys.time(), 
+                pred_time=lubridate::now(tz="America/New_York"), 
                 max_days_auto_prices=paste(round(tmp_dat$close0[nrow(tmp_dat):(nrow(tmp_dat)-max_days_auto+1)], 2), collapse="|"),
                 dat_rows=nrow(tmp_dat),
                 
