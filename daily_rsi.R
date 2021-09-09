@@ -16,7 +16,7 @@ if(cur_hour > 9) {
 symbols <- c("AGG", "GBTC", "IPO", "MUB", "QQQ", "RJA", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY", "AOK", "AOA")
 offset <- 30
 hi_rsi <- 65
-lo_rsi <- 41
+lo_rsi <- 43
 
 # GET DATA ----
 results <- list()
