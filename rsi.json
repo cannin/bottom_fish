@@ -1,1 +1,1 @@
-{"run_time":"2021-09-18 14:52:34","date":"X2021.09.17.1","hi_rsi":65,"lo_rsi":43,"result_str":"IPO:77.8_MUB:40.2_SFYF:67.1_BNDW:36_X2021.09.17.1","result_df":[{"symbol":"IPO","rsi":77.8},{"symbol":"MUB","rsi":40.2},{"symbol":"SFYF","rsi":67.1},{"symbol":"BNDW","rsi":36}]}
+{"run_time":"2021-09-19 03:53:07","date":"2021-09-17","hi_rsi":65,"lo_rsi":43,"result_str":"IPO:77.6_MUB:41.2_PDBC:71.3_BNDW:36.7_2021-09-17","result_df":[{"symbol":"IPO","rsi":77.6},{"symbol":"MUB","rsi":41.2},{"symbol":"PDBC","rsi":71.3},{"symbol":"BNDW","rsi":36.7}]}
