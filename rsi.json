@@ -1,1 +1,1 @@
-{"run_time":"2021-10-14 14:53:23","date":"2021-10-14","hi_rsi":65,"lo_rsi":43,"result_str":"AGG:38.3_MUB:29.2_PDBC:73.8_BNDW:38.5_RLY:66.2_2021-10-14","result_df":[{"symbol":"AGG","rsi":38.3},{"symbol":"MUB","rsi":29.2},{"symbol":"PDBC","rsi":73.8},{"symbol":"BNDW","rsi":38.5},{"symbol":"RLY","rsi":66.2}]}
+{"run_time":"2021-10-15 03:52:39","date":"2021-10-14","hi_rsi":65,"lo_rsi":43,"result_str":"AGG:39.9_MUB:29.9_PDBC:71.9_BNDW:39.3_2021-10-14","result_df":[{"symbol":"AGG","rsi":39.9},{"symbol":"MUB","rsi":29.9},{"symbol":"PDBC","rsi":71.9},{"symbol":"BNDW","rsi":39.3}]}
