@@ -1,1 +1,1 @@
-{"run_time":"2021-12-23 02:56:21","date":"2021-12-22","hi_rsi":65,"lo_rsi":43,"result_str":"GBTC:35.7_BITO:38.3_PDBC:15.4_SFYF:40.4_2021-12-22","result_df":[{"symbol":"GBTC","rsi":35.7},{"symbol":"BITO","rsi":38.3},{"symbol":"PDBC","rsi":15.4},{"symbol":"SFYF","rsi":40.4}]}
+{"run_time":"2021-12-23 13:56:34","date":"2021-12-23","hi_rsi":65,"lo_rsi":43,"result_str":"GBTC:40.6_BITO:42.5_PDBC:16.1_BNDW:34_2021-12-23","result_df":[{"symbol":"GBTC","rsi":40.6},{"symbol":"BITO","rsi":42.5},{"symbol":"PDBC","rsi":16.1},{"symbol":"BNDW","rsi":34}]}
