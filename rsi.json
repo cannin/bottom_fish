@@ -1,1 +1,1 @@
-{"run_time":"2022-03-17 14:56:27","date":"2022-03-17","hi_rsi":65,"lo_rsi":43,"result_str":"AGG:41.3_MUB:36_SFYF:42.3_BNDW:42.4_RLY:65_2022-03-17","result_df":[{"symbol":"AGG","rsi":41.3},{"symbol":"MUB","rsi":36},{"symbol":"SFYF","rsi":42.3},{"symbol":"BNDW","rsi":42.4},{"symbol":"RLY","rsi":65}]}
+{"run_time":"2022-03-18 14:56:48","date":"2022-03-18","hi_rsi":65,"lo_rsi":43,"result_str":"MUB:36.3_RLY:66.2_2022-03-18","result_df":[{"symbol":"MUB","rsi":36.3},{"symbol":"RLY","rsi":66.2}]}
