@@ -26,7 +26,7 @@ jobs:
           
       - name: Query Dependencies
         run: |
-          saveRDS(c('quantmod', 'GetoptLong', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'), ".github/depends.Rds", version = 2)
+          saveRDS(c('quantmod', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
@@ -34,15 +34,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-          
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-v2-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-v2-          
           
       - name: Run
         run: |
           source('https://gist.githubusercontent.com/cannin/6b8c68e7db19c4902459/raw/installPackages.R')
-          installPackages(installRemotes=FALSE, packages=c('quantmod', 'GetoptLong', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'))
+          installPackages(installRemotes=FALSE, packages=c('quantmod', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'))
           source('gspc_rsi.R')
-          source('prob_tree.R')
           source('daily_rsi.R')
         shell: Rscript {0}
       - name: Deploy
