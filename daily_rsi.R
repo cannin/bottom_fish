@@ -20,6 +20,7 @@ lo_rsi <- 43
 
 # GET DATA ----
 results <- list()
+close_df <- data.frame(symbol=symbols, close=NA, close_date=NA, stringsAsFactors=FALSE)
   
 for(i in 1:length(symbols)) {
   #i <- 2
@@ -51,13 +52,16 @@ for(i in 1:length(symbols)) {
     }, error=function(e){})
   if(is.null(dat)) next() # if dat is still NULL go to next ticker
   
-  fpr <- Cl(dat)
-  rsi <- RSI(fpr)
+  dat_close <- Cl(dat)
+  rsi <- RSI(dat_close)
   rsi$rsi <- round(rsi$rsi, 1)
   rsi_df <- as.data.frame(rsi)
+  
+  close_df$close[close_df$symbol == symbol] <- as.numeric(dat_close[nrow(dat_close)-1, 1])
+  close_df$close_date[close_df$symbol == symbol] <- rownames(as.data.frame(dat_close))[nrow(dat_close)-1]
 
-  tmp_results <- data.frame(date=rownames(rsi_df), rsi=rsi_df$rsi, stringsAsFactors=FALSE)
-  colnames(tmp_results) <- c("date", "rsi")
+  tmp_results <- data.frame(date=rownames(rsi_df), rsi=rsi_df$rsi, close=dat_close, stringsAsFactors=FALSE)
+  colnames(tmp_results) <- c("date", "rsi", "close")
   
   results[[symbol]] <- tmp_results
 } 
@@ -84,6 +88,7 @@ i3 <- which(!is.na(s4))
 vals <- unlist(s4[i3])
 names(vals) <- gsub(".rsi", "", names(vals))
 vals_df <- data.frame(symbol=gsub(".rsi", "", names(vals)), rsi=vals, stringsAsFactors=FALSE)
+vals_df <- merge(vals_df, close_df, all.x=TRUE)
 
 last_date <- s3$VTI.date[nrow(s3)]
 
