@@ -13,7 +13,8 @@ for(i in 1:length(symbols)) {
   rsi <- RSI(cl)
   
   tmp <- as.data.frame(rsi)
-  df <- data.frame(date=rownames(tmp), rsi=tmp$rsi, close=as.vector(cl))
+  df <- data.frame(date=rownames(tmp), rsi=round(tmp$rsi, 2), close=round(as.vector(cl), 2))
+  df$close_target <- round(df$close*0.99, 2)
   df <- tail(df, 20)
   
   write.table(df, paste0(name, ".txt"), sep="\t", quote=FALSE, row.names = FALSE)
