@@ -26,7 +26,7 @@ jobs:
           
       - name: Query Dependencies
         run: |
-          saveRDS(c('quantmod', 'GetoptLong', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'), ".github/depends.Rds", version = 2)
+          saveRDS(c('quantmod', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
