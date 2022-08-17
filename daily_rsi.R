@@ -13,10 +13,11 @@ if(cur_hour > 9) {
   get_cur_date <- FALSE
 }
 
-symbols <- c("AGG", "GBTC", "BITO", "SPBC", "IPO", "MUB", "QQQ", "RJA", "PDBC", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY", "AOK", "AOA")
+symbols <- c("SPY", "AGG", "GBTC", "BITO", "SPBC", "IPO", "MUB", "QQQ", "RJA", "PDBC", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY", "AOK", "AOA")
 offset <- 30
 hi_rsi <- 65
 lo_rsi <- 43
+from_date <- "2022-01-01"
 
 # GET DATA ----
 results <- list()
@@ -30,7 +31,7 @@ for(i in 1:length(symbols)) {
   dat <- NULL
   dat <- tryCatch({
       # Get historic data
-      getSymbols(Symbols=symbol, from=Sys.Date()-offset, auto.assign=TRUE)
+      getSymbols(Symbols=symbol, from=from_date, auto.assign=TRUE)
       
       # Get current values
       org_cols <- c("Trade Time", "Open", "High", "Low", "Last", "Volume")
@@ -69,11 +70,17 @@ for(i in 1:length(symbols)) {
 all_results <- do.call(cbind, results)
 cols <- paste0(symbols, ".rsi")
 
+#apply(all_results[, grepl("rsi", colnames(all_results))], 2, sd, na.rm=TRUE)
+#apply(all_results[, grepl("rsi", colnames(all_results))], 2, mean, na.rm=TRUE)
+
+sp500_mean <- mean(all_results[, "SPY.rsi"], na.rm=TRUE)
+sp500_sd <- sd(all_results[, "SPY.rsi"], na.rm=TRUE)
+
 no_na_results <- all_results[!is.na(all_results[,2]),]
 no_na_results_x <- no_na_results
 
 i2 <- colnames(no_na_results)[grepl("rsi", colnames(no_na_results))]
-x3 <- no_na_results[, c("VTI.date", i2)]
+x3 <- no_na_results[, c("SPY.date", i2)]
 
 # RESULTS ----
 s3 <- x3
@@ -90,14 +97,21 @@ names(vals) <- gsub(".rsi", "", names(vals))
 vals_df <- data.frame(symbol=gsub(".rsi", "", names(vals)), rsi=vals, stringsAsFactors=FALSE)
 vals_df <- merge(vals_df, close_df, all.x=TRUE)
 
-last_date <- s3$VTI.date[nrow(s3)]
+last_date <- s3$SPY.date[nrow(s3)]
 
 vals_str <- paste(names(vals), vals, collapse="_", sep=":")
 vals_str <- paste0(vals_str, "_", last_date)
 
 #run_time <- substr(capture.output(as.POSIXct(Sys.time(), tz="America/New_York")), 6, 28)
 run_time <- lubridate::now(tz="America/New_York")
-lst <- list(run_time=run_time, date=last_date, hi_rsi=hi_rsi, lo_rsi=lo_rsi, result_str=vals_str, result_df=vals_df)
+lst <- list(run_time=run_time, 
+            date=last_date, 
+            hi_rsi=hi_rsi, 
+            lo_rsi=lo_rsi, 
+            sp500_mean=sp500_mean,
+            sp500_sd=sp500_sd,
+            result_str=vals_str, 
+            result_df=vals_df)
 
 # WRITE RESULTS ----
 json <- toJSON(lst, digits=2, auto_unbox=TRUE, rownames=FALSE)
