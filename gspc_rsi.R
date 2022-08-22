@@ -4,7 +4,7 @@ library(jsonlite)
 symbols <- c("gspc"="^GSPC", "vti"="VTI")
 
 for(i in 1:length(symbols)) {
-  #i <- 2
+  #i <- 1
   symbol <- unname(symbols[i])
   name <- names(symbols)[i]
   
@@ -17,11 +17,12 @@ for(i in 1:length(symbols)) {
   df$close_target <- round(df$close*0.99, 2)
   df <- tail(df, 20)
   
-  t1 <- c(as.numeric(cl$VTI.Close), df$close_target[nrow(df)])
-  t1 <- c(as.numeric(cl$VTI.Close), df$close_target[nrow(df)])
-  t2 <- RSI(t1)
-  df$rsi_target <- c(rep(NA, 19), t2[length(t2)])
-  
+  if(name != "gspc") {
+    t1 <- c(as.numeric(cl$VTI.Close), df$close_target[nrow(df)])
+    t2 <- RSI(t1)
+    df$rsi_target <- c(rep(NA, 19), t2[length(t2)])    
+  }
+
   write.table(df, paste0(name, ".txt"), sep="\t", quote=FALSE, row.names = FALSE)
   
   json <- toJSON(df, digits=2)
