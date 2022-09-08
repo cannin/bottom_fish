@@ -75,6 +75,7 @@ cols <- paste0(symbols, ".rsi")
 
 sp500_mean <- mean(all_results[, "SPY.rsi"], na.rm=TRUE)
 sp500_sd <- sd(all_results[, "SPY.rsi"], na.rm=TRUE)
+sp500_last <- sd(all_results[nrow(all_results), "SPY.rsi"], na.rm=TRUE)
 
 no_na_results <- all_results[!is.na(all_results[,2]),]
 no_na_results_x <- no_na_results
@@ -110,6 +111,7 @@ lst <- list(run_time=run_time,
             lo_rsi=lo_rsi, 
             sp500_mean=sp500_mean,
             sp500_sd=sp500_sd,
+            sp500_last=sp500_last, 
             result_str=vals_str, 
             result_df=vals_df)
 
