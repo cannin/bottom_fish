@@ -1,1 +1,1 @@
-{"run_time":"2022-10-27 15:01:29","date":"2022-10-27","hi_rsi":65,"lo_rsi":43,"sp500_mean":45.16,"sp500_sd":11.23,"sp500_last":54.3,"result_str":"MUB:29_2022-10-27","result_df":[{"symbol":"MUB","rsi":29,"close":101.74,"close_date":"2022-10-26"}]}
+{"run_time":"2022-10-28 03:52:42","date":"2022-10-27","hi_rsi":65,"lo_rsi":43,"sp500_mean":45.16,"sp500_sd":11.23,"sp500_last":53.9,"result_str":"MUB:28.1_2022-10-27","result_df":[{"symbol":"MUB","rsi":28.1,"close":101.74,"close_date":"2022-10-26"}]}
