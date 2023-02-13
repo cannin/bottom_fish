@@ -1,1 +1,1 @@
-{"run_time":"2023-02-13 02:53:14","date":"2023-02-10","hi_rsi":65,"lo_rsi":43,"sp500_mean":47.69,"sp500_sd":11.13,"sp500_last":56,"result_str":"AGG:40_BNDW:42.1_2023-02-10","result_df":[{"symbol":"AGG","rsi":40,"close":98.85,"close_date":"2023-02-09"},{"symbol":"BNDW","rsi":42.1,"close":68.41,"close_date":"2023-02-09"}]}
+{"run_time":"2023-02-13 13:53:09","date":"2023-02-13","hi_rsi":65,"lo_rsi":43,"sp500_mean":47.73,"sp500_sd":11.13,"sp500_last":59.8,"result_str":"AGG:42.7_2023-02-13","result_df":[{"symbol":"AGG","rsi":42.7,"close":98.42,"close_date":"2023-02-10"}]}
