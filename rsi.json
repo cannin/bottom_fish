@@ -1,1 +1,1 @@
-{"run_time":"2023-04-18 03:52:52","date":"2023-04-17","hi_rsi":65,"lo_rsi":43,"sp500_mean":48.17,"sp500_sd":10.83,"sp500_last":63.6,"result_str":"VXUS:65.8_2023-04-17","result_df":[{"symbol":"VXUS","rsi":65.8,"close":56.32,"close_date":"2023-04-14"}]}
+{"run_time":"2023-04-18 14:52:49","date":"2023-04-18","hi_rsi":65,"lo_rsi":43,"sp500_mean":48.21,"sp500_sd":10.84,"sp500_last":62.5,"result_str":"VXUS:66.5_2023-04-18","result_df":[{"symbol":"VXUS","rsi":66.5,"close":56.32,"close_date":"2023-04-17"}]}
