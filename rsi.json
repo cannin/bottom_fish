@@ -1,1 +1,1 @@
-{"run_time":"2023-04-27 14:52:33","date":"2023-04-27","hi_rsi":65,"lo_rsi":43,"sp500_mean":48.4,"sp500_sd":10.83,"sp500_last":56.9,"result_str":"PDBC:37.6_2023-04-27","result_df":[{"symbol":"PDBC","rsi":37.6,"close":13.97,"close_date":"2023-04-26"}]}
+{"run_time":"2023-04-28 03:52:53","date":"2023-04-27","hi_rsi":65,"lo_rsi":43,"sp500_mean":48.4,"sp500_sd":10.83,"sp500_last":57.2,"result_str":"PDBC:38.7_2023-04-27","result_df":[{"symbol":"PDBC","rsi":38.7,"close":13.97,"close_date":"2023-04-26"}]}
