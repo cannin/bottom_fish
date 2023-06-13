@@ -6,7 +6,7 @@ on:
   schedule:
     - cron:  '59 23 * * *'
 
-name: r_build
+name: r_build_quotes
 
 jobs:
   r_build:
