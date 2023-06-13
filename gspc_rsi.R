@@ -8,7 +8,7 @@ for(i in 1:length(symbols)) {
   symbol <- unname(symbols[i])
   name <- names(symbols)[i]
   
-  dat <- getSymbols(symbol, auto.assign = FALSE, from = "2020-01-02")
+  dat <- getSymbols(symbol, auto.assign = FALSE, from = "2023-01-02")
   cl <- Cl(dat)
   rsi <- RSI(cl)
   

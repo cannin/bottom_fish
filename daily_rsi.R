@@ -17,7 +17,7 @@ symbols <- c("SPY", "AGG", "GBTC", "BITO", "SPBC", "IPO", "MUB", "QQQ", "RJA", "
 offset <- 30
 hi_rsi <- 65
 lo_rsi <- 43
-from_date <- "2022-01-01"
+from_date <- "2023-01-01"
 
 # GET DATA ----
 results <- list()
