@@ -13,11 +13,12 @@ if(cur_hour > 9) {
   get_cur_date <- FALSE
 }
 
-symbols <- c("SPY", "AGG", "GBTC", "BITO", "SPBC", "IPO", "MUB", "QQQ", "PDBC", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY", "AOK", "AOA")
+#symbols <- c("SPY", "AGG", "GBTC", "BITO", "SPBC", "IPO", "MUB", "QQQ", "PDBC", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY", "AOK", "AOA")
+symbols <- c("SPY", "AGG", "GBTC", "IPO", "MUB", "QQQ", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT")
 offset <- 30
 hi_rsi <- 65
 lo_rsi <- 43
-from_date <- "2023-01-01"
+from_date <- "2023-01-02"
 
 # GET DATA ----
 results <- list()

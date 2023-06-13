@@ -45,7 +45,7 @@ GBTC
 VFIAX"
 symbols <- strsplit(symbols_str, "\n")[[1]]
 
-from_date <- "2023-01-01"
+from_date <- "2023-01-02"
 
 # GET DATA ----
 close_df <- data.frame(symbol=symbols, close=NA, close_date=NA, stringsAsFactors=FALSE)
