@@ -43,6 +43,7 @@ jobs:
           installPackages(installRemotes=FALSE, packages=c('quantmod', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'))
           source('gspc_rsi.R')
           source('daily_rsi.R')
+          source('daily_quotes.R')
         shell: Rscript {0}
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
