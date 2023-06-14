@@ -78,43 +78,51 @@ sp500_mean <- mean(all_results[, "SPY.rsi"], na.rm=TRUE)
 sp500_sd <- sd(all_results[, "SPY.rsi"], na.rm=TRUE)
 sp500_last <- all_results[nrow(all_results), "SPY.rsi"]
 
-no_na_results <- all_results[!is.na(all_results[,2]),]
-no_na_results_x <- no_na_results
-
-i2 <- colnames(no_na_results)[grepl("rsi", colnames(no_na_results))]
-x3 <- no_na_results[, c("SPY.date", i2)]
-
 # RESULTS ----
-s3 <- x3
-
-for(i in 2:(2+length(symbols)-1)) {
-  s3[s3[,i] < hi_rsi & s3[,i] > lo_rsi, i] <- NA
-}
-
-s4 <- s3[nrow(s3), 2:(2+length(symbols)-1)]
-i3 <- which(!is.na(s4))
-
-vals <- unlist(s4[i3])
-names(vals) <- gsub(".rsi", "", names(vals))
-vals_df <- data.frame(symbol=gsub(".rsi", "", names(vals)), rsi=vals, stringsAsFactors=FALSE)
-vals_df <- merge(vals_df, close_df, all.x=TRUE)
-
-last_date <- s3$SPY.date[nrow(s3)]
-
-vals_str <- paste(names(vals), vals, collapse="_", sep=":")
-vals_str <- paste0(vals_str, "_", last_date)
+# NOT ALWAYS WORKING 
+# no_na_results <- all_results[!is.na(all_results[,2]),]
+# no_na_results_x <- no_na_results
+# 
+# i2 <- colnames(no_na_results)[grepl("rsi", colnames(no_na_results))]
+# x3 <- no_na_results[, c("SPY.date", i2)]
+# 
+# s3 <- x3
+# 
+# for(i in 2:(2+length(symbols)-1)) {
+#   s3[s3[,i] < hi_rsi & s3[,i] > lo_rsi, i] <- NA
+# }
+# 
+# s4 <- s3[nrow(s3), 2:(2+length(symbols)-1)]
+# i3 <- which(!is.na(s4))
+# 
+# vals <- unlist(s4[i3])
+# names(vals) <- gsub(".rsi", "", names(vals))
+# vals_df <- data.frame(symbol=gsub(".rsi", "", names(vals)), rsi=vals, stringsAsFactors=FALSE)
+# vals_df <- merge(vals_df, close_df, all.x=TRUE)
+# 
+# last_date <- s3$SPY.date[nrow(s3)]
+# 
+# vals_str <- paste(names(vals), vals, collapse="_", sep=":")
+# vals_str <- paste0(vals_str, "_", last_date)
 
 #run_time <- substr(capture.output(as.POSIXct(Sys.time(), tz="America/New_York")), 6, 28)
 run_time <- lubridate::now(tz="America/New_York")
+# lst <- list(run_time=run_time, 
+#             date=last_date, 
+#             hi_rsi=hi_rsi, 
+#             lo_rsi=lo_rsi, 
+#             sp500_mean=sp500_mean,
+#             sp500_sd=sp500_sd,
+#             sp500_last=sp500_last, 
+#             result_str=vals_str, 
+#             result_df=vals_df)
 lst <- list(run_time=run_time, 
             date=last_date, 
             hi_rsi=hi_rsi, 
             lo_rsi=lo_rsi, 
             sp500_mean=sp500_mean,
             sp500_sd=sp500_sd,
-            sp500_last=sp500_last, 
-            result_str=vals_str, 
-            result_df=vals_df)
+            sp500_last=sp500_last)
 
 # WRITE RESULTS ----
 json <- toJSON(lst, digits=2, auto_unbox=TRUE, rownames=FALSE)
