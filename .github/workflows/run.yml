@@ -4,7 +4,7 @@ on:
       - main
       - master
   schedule:
-    - cron:  '50 7,18 * * *'
+    - cron:  '50 7,18,23 * * *'
 
 name: r_build
 
