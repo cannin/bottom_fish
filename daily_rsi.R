@@ -77,6 +77,8 @@ cols <- paste0(symbols, ".rsi")
 sp500_mean <- mean(all_results[, "SPY.rsi"], na.rm=TRUE)
 sp500_sd <- sd(all_results[, "SPY.rsi"], na.rm=TRUE)
 sp500_last <- all_results[nrow(all_results), "SPY.rsi"]
+tmp <- as.data.frame(SPY)
+last_date <- rownames(tmp)[nrow(tmp)]
 
 # RESULTS ----
 # NOT ALWAYS WORKING 
@@ -120,8 +122,8 @@ lst <- list(run_time=run_time,
             date=last_date, 
             hi_rsi=hi_rsi, 
             lo_rsi=lo_rsi, 
-            sp500_mean=sp500_mean,
-            sp500_sd=sp500_sd,
+            sp500_mean=round(sp500_mean, 2),
+            sp500_sd=round(sp500_sd, 2),
             sp500_last=sp500_last)
 
 # WRITE RESULTS ----
