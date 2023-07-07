@@ -14,7 +14,8 @@ if(cur_hour > 9) {
 }
 
 #symbols <- c("SPY", "AGG", "GBTC", "BITO", "SPBC", "IPO", "MUB", "QQQ", "PDBC", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT", "BNDW", "RLY", "AOK", "AOA")
-symbols <- c("SPY", "AGG", "GBTC", "IPO", "MUB", "QQQ", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT")
+#symbols <- c("SPY", "AGG", "GBTC", "IPO", "MUB", "QQQ", "SSO", "SFYF", "TIP", "USRT", "VTI", "VXUS", "VT")
+symbols <- c("SPY", "AGG", "VTI")
 offset <- 30
 hi_rsi <- 65
 lo_rsi <- 43
