@@ -75,6 +75,9 @@ cols <- paste0(symbols, ".rsi")
 #apply(all_results[, grepl("rsi", colnames(all_results))], 2, sd, na.rm=TRUE)
 #apply(all_results[, grepl("rsi", colnames(all_results))], 2, mean, na.rm=TRUE)
 
+tmp <- paste(capture.output(tail(all_results, 3)), collapse = "\n")
+cat("MSG: SPY data:\n", tmp, "\n")
+
 #sp500_mean <- mean(all_results[, "SPY.rsi"], na.rm=TRUE)
 #sp500_sd <- sd(all_results[, "SPY.rsi"], na.rm=TRUE)
 sp500_last <- all_results[nrow(all_results), "SPY.rsi"]
