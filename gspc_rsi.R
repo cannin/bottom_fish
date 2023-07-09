@@ -1,7 +1,7 @@
 library(quantmod)
 library(jsonlite)
 
-symbols <- c("gspc"="^GSPC", "vti"="VTI")
+symbols <- c("gspc"="^GSPC", "vti"="VTI", "sso"="SSO")
 
 for(i in 1:length(symbols)) {
   #i <- 1
