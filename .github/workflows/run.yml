@@ -19,10 +19,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install curl libcurl4-openssl-dev 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: r-lib/actions/setup-r@v1
         with:
-          r-version: '3.6.2'     
+          use-public-rspm: true
+          r-version: '4.2.2'
+          
           
       - name: Query Dependencies
         run: |
@@ -35,7 +37,7 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-v2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-v2-          
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-v3-          
           
       - name: Run
         run: |
