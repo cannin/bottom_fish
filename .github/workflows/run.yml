@@ -43,9 +43,9 @@ jobs:
         run: |
           source('https://gist.githubusercontent.com/cannin/6b8c68e7db19c4902459/raw/installPackages.R')
           installPackages(installRemotes=FALSE, packages=c('quantmod', 'jsonlite', 'magrittr', 'xml2', 'readr', 'rvest', 'lubridate'))
-          cat("DAILY QUOTES\n"); source('daily_quotes.R')
-          cat("DAILY RSI\n"); source('daily_rsi.R')
-          cat("GSPC RSI\n"); source('gspc_rsi.R')
+          cat("DAILY QUOTES ----\n"); source('daily_quotes.R'); cat("----\n\n")
+          cat("DAILY RSI ----\n"); source('daily_rsi.R'); cat("----\n\n")
+          cat("GSPC RSI ----\n"); source('gspc_rsi.R'); cat("----\n\n")
         shell: Rscript {0}
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
